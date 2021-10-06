@@ -20,13 +20,15 @@ class DeploymentJobs(Base):
     __tablename__ = "DEPLOYMENT_JOBS"
 
     id = Column(Integer, primary_key=True, index=True)
+    repo_url = Column(String)
+    commit_id = Column(String)
     status = Column(String, default='PENDING')
-    commit_code = Column(String, default='')
     last_modified = Column(DateTime, default=datetime.datetime.utcnow)
 
 
 def create_tables():
     DeploymentJobs.__table__.create(engine)
+
 
 # Once run creates tables in the DB
 # create_tables()
@@ -53,7 +55,6 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 
 
 # Endpoints
-
 @app.get("/ping")
 async def ping():
     return {"message": "repo-listener <3"}
@@ -61,14 +62,20 @@ async def ping():
 
 @app.post("/repo-webhook")
 async def root(request: Request):
-    deployment_job = DeploymentJobs(commit_code=id_generator())
+    commit_info = await request.json()
+    repo_url = commit_info['repository']['clone_url']
+    commit_id = commit_info['head_commit']['id']
+    deployment_job = DeploymentJobs(
+        repo_url=repo_url,
+        commit_id=commit_id
+    )
     session = SessionLocal()
     session.add(deployment_job)
     session.commit()
-    print(await request.json())
     return {
         "id": deployment_job.id.__str__(),
         "status": deployment_job.status,
-        "commit_code": deployment_job.commit_code,
+        "commit_id": deployment_job.commit_id,
+        "repo_url": deployment_job.repo_url,
         "last_modified": deployment_job.last_modified.__str__()
     }
