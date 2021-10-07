@@ -29,3 +29,13 @@ services:
       - postgresql
     environment:
       - DB_URI=postgresql://dev:dev@postgresql:5432/dev
+  worker-app:
+    image: 'worker-app'
+    ports:
+      - 5001:5001
+    depends_on:
+      - postgresql
+    environment:
+      - DB_URI=postgresql://dev:dev@postgresql:5432/dev
+      - TMP_DIR=/tmp-dir/
+      - REPO_BASE_URL=gitea
