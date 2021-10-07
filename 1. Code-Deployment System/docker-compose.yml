@@ -39,3 +39,11 @@ services:
       - DB_URI=postgresql://dev:dev@postgresql:5432/dev
       - TMP_DIR=/tmp-dir/
       - REPO_BASE_URL=gitea
+  worker-monitoring-app:
+    image: 'worker-monitoring-app'
+    ports:
+      - 5002:5002
+    depends_on:
+      - postgresql
+    environment:
+      - DB_URI=postgresql://dev:dev@postgresql:5432/dev
