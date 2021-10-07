@@ -39,6 +39,7 @@ async def ping():
 TMP_DIR = os.environ.get('TMP_DIR', '/Users/kdvalishivli/Desktop/tmp/tmpdata/')
 REPO_BASE_URL = os.environ.get('REPO_BASE_URL', 'localhost')
 
+
 def get_repo_name(repo_url):
     return 'test-repo'
 
@@ -65,7 +66,7 @@ def upload_build(built_path):
 
 
 PENDING_JOBS_QUERY = "SELECT * FROM \"DEPLOYMENT_JOBS\" WHERE status = 'PENDING' ORDER BY id ASC limit 1"
-UPDATE_JOB_STATUS_QUERY = 'UPDATE "DEPLOYMENT_JOBS" SET status = \'DEPLOYING\' WHERE id = {job_id}'
+UPDATE_JOB_STATUS_QUERY = 'UPDATE "DEPLOYMENT_JOBS" SET status = \'DEPLOYING\', last_modified = now() WHERE id = {job_id}'
 
 
 def query_pending_job():
