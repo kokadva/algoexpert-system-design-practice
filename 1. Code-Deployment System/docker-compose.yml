@@ -8,8 +8,6 @@ services:
     restart: always
     volumes:
       - ./gitea:/data
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
     ports:
       - "3000:3000"
       - "222:22"
@@ -39,6 +37,7 @@ services:
       - DB_URI=postgresql://dev:dev@postgresql:5432/dev
       - TMP_DIR=/tmp-dir/
       - REPO_BASE_URL=gitea
+      - MINIO_HOST=object-storage:9000
   worker-monitoring-app:
     image: 'worker-monitoring-app'
     ports:
@@ -47,3 +46,16 @@ services:
       - postgresql
     environment:
       - DB_URI=postgresql://dev:dev@postgresql:5432/dev
+  object-storage:
+    image: 'minio/minio'
+    command: 'server /data --console-address ":9001"'
+    expose:
+      - 9000
+      - 9001
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      - MINIO_ACCESS_KEY=access_key
+      - MINIO_SECRET_KEY=secret_key
+

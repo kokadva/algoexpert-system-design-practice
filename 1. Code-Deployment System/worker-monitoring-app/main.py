@@ -34,8 +34,7 @@ async def ping():
     return {"message": "repo-listener <3"}
 
 
-PENDING_JOBS_QUERY = "SELECT * FROM \"DEPLOYMENT_JOBS\" WHERE status = 'PENDING' ORDER BY id ASC limit 1"
-UPDATE_JOB_STATUS_QUERY = 'UPDATE "DEPLOYMENT_JOBS" SET status = \'PENDING\' WHERE EXTRACT(EPOCH FROM (now() - last_modified)) >= 60 * 3'
+UPDATE_JOB_STATUS_QUERY = 'UPDATE "DEPLOYMENT_JOBS" SET status = \'PENDING\' WHERE status = \'DEPLOYING\' AND EXTRACT(EPOCH FROM (now() - last_modified)) >= 60 * 3'
 
 
 def update_job_status():
