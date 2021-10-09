@@ -72,7 +72,8 @@ def clone_commit(repo_url, commit_id, build_id):
 
 def upload_build(built_path, bucket_name, build_id, minio_client):
     print("Uploading build from {build_path}".format(build_path=built_path))
-    result = minio_client.fput_object(bucket_name, build_id + '/index.hml', built_path + 'index.html')
+    # result = minio_client.fput_object(bucket_name, build_id + '/index.hml', built_path + 'index.html')
+    result = minio_client.fput_object(bucket_name, 'build', built_path + 'index.html')
     print("created {0} object; etag: {1}, version-id: {2}".format(result.object_name, result.etag, result.version_id))
 
 
@@ -108,6 +109,7 @@ def handle_repo_event():
     except:
         print("Nothing to do +_+ <3")
         return
+    job_id = str(job_id)
     build_path = clone_commit(repo_url, commit_id, job_id)
     upload_build(build_path, BUCKET_NAME, job_id, minio_client)
     update_finished_job_status(job_id)

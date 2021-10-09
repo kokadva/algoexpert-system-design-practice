@@ -58,4 +58,11 @@ services:
     environment:
       - MINIO_ACCESS_KEY=access_key
       - MINIO_SECRET_KEY=secret_key
-
+  client-app:
+    image: 'client-app'
+    ports:
+      - 80:80
+    depends_on:
+      - gitea
+    environment:
+      - MINIO_HOST=object-storage:9000
