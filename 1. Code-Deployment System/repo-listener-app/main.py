@@ -9,7 +9,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
 # DB Settings
-SQLALCHEMY_DATABASE_URL = USER = os.getenv('DB_URI', "postgresql://dev:dev@localhost:5432/dev")
+SQLALCHEMY_DATABASE_URL = os.getenv('DB_URI', "postgresql://dev:dev@localhost:5432/dev")
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
@@ -27,11 +27,15 @@ class DeploymentJobs(Base):
 
 
 def create_tables():
-    DeploymentJobs.__table__.create(engine)
+    try:
+        DeploymentJobs.__table__.create(engine)
+        print("Created tables")
+    except:
+        pass
 
 
 # Once run creates tables in the DB
-# create_tables()
+create_tables()
 
 # FastAPI Init
 app = FastAPI()

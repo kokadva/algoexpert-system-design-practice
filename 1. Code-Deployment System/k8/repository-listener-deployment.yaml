@@ -1,0 +1,45 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "repo-listener"
+  namespace: "default"
+  labels:
+    app: "repo-listener"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "repo-listener"
+  template:
+    metadata:
+      labels:
+        app: "repo-listener"
+    spec:
+      containers:
+      - name: "repo-listener"
+        image: "repo-listener"
+        imagePullPolicy: Never
+        env:
+        - name: "DB_URI"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_URI"
+              name: "queue-db-configmap"
+
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "repo-listener-service"
+  namespace: "default"
+  labels:
+    app: "repo-listener-service"
+spec:
+  ports:
+  - protocol: "TCP"
+    port: 5000
+    targetPort: 5000
+  selector:
+    app: "repo-listener"
+  type: "LoadBalancer"
+  loadBalancerIP: ""

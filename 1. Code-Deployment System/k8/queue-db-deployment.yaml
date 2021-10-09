@@ -1,0 +1,51 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "queue-db"
+  namespace: "default"
+  labels:
+    app: "queue-db"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "queue-db"
+  template:
+    metadata:
+      labels:
+        app: "queue-db"
+    spec:
+      containers:
+      - name: "postgres"
+        image: 'postgres:9.6'
+        env:
+        - name: "POSTGRES_DB"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_DB"
+              name: "queue-db-configmap"
+        - name: "POSTGRES_USER"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_USER"
+              name: "queue-db-configmap"
+        - name: "POSTGRES_PASSWORD"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_PASSWORD"
+              name: "queue-db-configmap"
+        ports:
+          - containerPort: 5432
+            name: postgres
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: queue-db
+

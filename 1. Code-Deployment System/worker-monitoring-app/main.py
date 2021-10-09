@@ -31,7 +31,7 @@ app.add_middleware(
 # Endpoints
 @app.get("/ping")
 async def ping():
-    return {"message": "repo-listener <3"}
+    return {"message": "worker-monitor <3"}
 
 
 UPDATE_JOB_STATUS_QUERY = 'UPDATE "DEPLOYMENT_JOBS" SET status = \'PENDING\' WHERE status = \'DEPLOYING\' AND EXTRACT(EPOCH FROM (now() - last_modified)) >= 60 * 3'

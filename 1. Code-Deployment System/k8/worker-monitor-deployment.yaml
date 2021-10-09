@@ -1,0 +1,43 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "worker-monitor"
+  namespace: "default"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "worker-monitor"
+  template:
+    metadata:
+      labels:
+        app: "worker-monitor"
+    spec:
+      containers:
+      - name: "worker-monitor"
+        image: "worker-monitoring-app"
+        imagePullPolicy: Never
+        env:
+        - name: "DB_URI"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_URI"
+              name: "queue-db-configmap"
+
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "worker-monitor-service"
+  namespace: "default"
+  labels:
+    app: "worker-monitor-service"
+spec:
+  ports:
+  - protocol: "TCP"
+    port: 5002
+    targetPort: 5002
+  selector:
+    app: "worker-monitor"
+  type: "LoadBalancer"
+  loadBalancerIP: ""
