@@ -5,7 +5,7 @@
 ### 1. Code Deployment System
 
 #### System Design:
-![System Design](static-content/CodeDeploymentSystemDesign.png) 
+![System Design](static-content/CodeDeploymentSystemDesign.PNG) 
 
 
 #### How to run:
