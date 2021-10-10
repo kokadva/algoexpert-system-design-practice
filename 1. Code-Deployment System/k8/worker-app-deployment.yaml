@@ -18,6 +18,8 @@ spec:
           image: "worker-app"
           imagePullPolicy: Never
           env:
+            - name: "REPO_NAME"
+              value: "test-repo"
             - name: "TMP_DIR"
               value: "/tmp/"
             - name: "REPO_BASE_URL"

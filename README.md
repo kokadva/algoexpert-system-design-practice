@@ -10,14 +10,12 @@
 
 #### How to run:
 1. Install docker desktop and enable kubernetes
-2. Build docker images for each app respectively for each k8 deployment 
-3. Run `kubectl apply -f .` in each k8 directories following this order:
-    1. `config-maps`
-    2. `first-phase-deployments`
-    3. All the others in the k8 directory
+2. Run `k8/build-docker-images.sh` script to build all docker images
+3. Run `k8/setup-k8-env.sh` script to setup k8 environment 
 4. Go to `localhost:3000` register and create repository named `test-repo`
 5. Go to repo's settings ad add `Webhook` with target url: `http://repo-listener-service:5000/repo-webhook` and `Trigger On` all events.
 6. Push `index.html` file to the `test-repo`
 7. Go to `localhost:80` to check the result (every time you change `index.html` this page must update automatically)
-8. Delete all deployments: `kubectl delete all --all`   
+8. Run `k8/delete-k8-resources.sh` script to delete all k8 resources
+(To run the script first make it executable by running `chmod 755 <script path>`)
  

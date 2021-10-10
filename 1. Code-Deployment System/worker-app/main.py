@@ -44,6 +44,7 @@ minio_client = Minio(MINIO_HOST, MINIO_ACCESS_KEY, MINIO_SECRET_KEY, secure=Fals
 
 TMP_DIR = os.environ.get('TMP_DIR', '/Users/kdvalishivli/Desktop/tmp/tmpdata/')
 REPO_BASE_URL = os.environ.get('REPO_BASE_URL', 'localhost')
+REPO_NAME = os.environ.get("REPO_NAME", "test-repo")
 BUCKET_NAME = os.environ.get('BUCKET_NAME', 'deployment')
 
 
@@ -52,17 +53,13 @@ def create_default_bucket(minio_client, bucket_name='deployment'):
         minio_client.make_bucket(bucket_name)
 
 
-def get_repo_name(repo_url):
-    return 'test-repo'
-
-
 def clone_commit(repo_url, commit_id, build_id):
     repo_url = repo_url.replace('localhost', REPO_BASE_URL)
     build_dir = TMP_DIR + build_id
     os.makedirs(build_dir)
     os.chdir(build_dir)
     os.system('git clone {repo_url}'.format(repo_url=repo_url))
-    repo_name = get_repo_name(repo_url)
+    repo_name = REPO_NAME
     result_path = build_dir + '/' + repo_name + '/'
     os.chdir(result_path)
     os.system('git checkout {commit_id}'.format(commit_id=commit_id))
