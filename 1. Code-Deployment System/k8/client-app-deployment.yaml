@@ -18,6 +18,10 @@ spec:
           image: "client-app"
           imagePullPolicy: Never
           env:
+            - name: "STATIC_CONTENT_DIR"
+              value: "static"
+            - name: "POLL_TIMER"
+              value: "15"
             - name: "MINIO_ACCESS_KEY"
               valueFrom:
                 configMapKeyRef:
@@ -32,6 +36,11 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: "MINIO_HOST"
+                  name: "minio-storage-configmap"
+            - name: "BUCKET_NAME"
+              valueFrom:
+                configMapKeyRef:
+                  key: "BUCKET_NAME"
                   name: "minio-storage-configmap"
 
 ---

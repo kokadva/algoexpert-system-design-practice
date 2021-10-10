@@ -17,6 +17,7 @@ minio_client = Minio(MINIO_HOST, MINIO_ACCESS_KEY, MINIO_SECRET_KEY, secure=Fals
 
 STATIC_CONTENT_DIR = os.environ.get('STATIC_CONTENT_DIR', 'static')
 BUCKET_NAME = os.environ.get('BUCKET_NAME', 'deployment')
+POLL_TIMER = int(os.environ.get('POLL_TIMER', "15"))
 
 # FastAPI Init
 app = FastAPI()
@@ -59,7 +60,7 @@ def update_build():
 
 create_default_bucket(minio_client, BUCKET_NAME)
 scheduler = BackgroundScheduler()
-scheduler.add_job(update_build, 'interval', seconds=10)
+scheduler.add_job(update_build, 'interval', seconds=POLL_TIMER)
 scheduler.start()
 
 objects = minio_client.list_objects(BUCKET_NAME, recursive=True)
