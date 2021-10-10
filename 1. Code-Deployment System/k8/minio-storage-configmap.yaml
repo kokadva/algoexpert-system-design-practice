@@ -1,0 +1,12 @@
+apiVersion: "v1"
+kind: "ConfigMap"
+metadata:
+  name: "minio-storage-configmap"
+  namespace: "default"
+  labels:
+    app: "minio-storage-configmap"
+data:
+  MINIO_ACCESS_KEY: "access_key"
+  MINIO_SECRET_KEY: "secret_key"
+  MINIO_HOST: "minio-object-storage-service:9000"
+

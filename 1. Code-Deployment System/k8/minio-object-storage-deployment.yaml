@@ -1,0 +1,58 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "minio-object-storage"
+  namespace: "default"
+  labels:
+    app: "minio-object-storage"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "minio-object-storage"
+  template:
+    metadata:
+      labels:
+        app: "minio-object-storage"
+    spec:
+      containers:
+        - name: "minio-object-storage"
+          image: 'minio/minio'
+          imagePullPolicy: Always
+          args:
+            - server
+            - /data
+          env:
+            - name: "MINIO_ACCESS_KEY"
+              valueFrom:
+                configMapKeyRef:
+                  key: "MINIO_ACCESS_KEY"
+                  name: "minio-storage-configmap"
+            - name: "MINIO_SECRET_KEY"
+              valueFrom:
+                configMapKeyRef:
+                  key: "MINIO_SECRET_KEY"
+                  name: "minio-storage-configmap"
+
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "minio-object-storage-service"
+  namespace: "default"
+  labels:
+    app: "minio-object-storage-service"
+spec:
+  ports:
+    - protocol: "TCP"
+      name: ui
+      port: 9000
+      targetPort: 9000
+    - protocol: "TCP"
+      name: api
+      port: 9001
+      targetPort: 9001
+  selector:
+    app: "minio-object-storage"
+  type: "LoadBalancer"
+  loadBalancerIP: ""

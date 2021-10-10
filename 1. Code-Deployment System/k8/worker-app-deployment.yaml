@@ -1,0 +1,65 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "worker-app"
+  namespace: "default"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "worker-app"
+  template:
+    metadata:
+      labels:
+        app: "worker-app"
+    spec:
+      containers:
+        - name: "worker-app"
+          image: "worker-app"
+          imagePullPolicy: Never
+          env:
+            - name: "TMP_DIR"
+              value: "/tmp/"
+            - name: "REPO_BASE_URL"
+              valueFrom:
+                configMapKeyRef:
+                  key: "REPO_BASE_URL"
+                  name: "gitea-repo-configmap"
+            - name: "DB_URI"
+              valueFrom:
+                configMapKeyRef:
+                  key: "POSTGRES_URI"
+                  name: "queue-db-configmap"
+            - name: "MINIO_ACCESS_KEY"
+              valueFrom:
+                configMapKeyRef:
+                  key: "MINIO_ACCESS_KEY"
+                  name: "minio-storage-configmap"
+            - name: "MINIO_SECRET_KEY"
+              valueFrom:
+                configMapKeyRef:
+                  key: "MINIO_SECRET_KEY"
+                  name: "minio-storage-configmap"
+            - name: "MINIO_HOST"
+              valueFrom:
+                configMapKeyRef:
+                  key: "MINIO_HOST"
+                  name: "minio-storage-configmap"
+
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "worker-app-service"
+  namespace: "default"
+  labels:
+    app: "worker-app-service"
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 5001
+      targetPort: 5001
+  selector:
+    app: "worker-app"
+  type: "LoadBalancer"
+  loadBalancerIP: ""

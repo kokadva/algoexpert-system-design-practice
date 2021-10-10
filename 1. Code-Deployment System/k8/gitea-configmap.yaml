@@ -1,0 +1,11 @@
+apiVersion: "v1"
+kind: "ConfigMap"
+metadata:
+  name: "gitea-repo-configmap"
+  namespace: "default"
+  labels:
+    app: "gitea-repo-configmap"
+data:
+  REPO_BASE_URL: "gitea-repository-service"
+
+

@@ -1,5 +1,4 @@
 import os
-import uuid
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from fastapi import FastAPI
@@ -34,7 +33,7 @@ app.add_middleware(
 # Endpoints
 @app.get("/ping")
 async def ping():
-    return {"message": "repo-listener <3"}
+    return {"message": "worker-app <3"}
 
 
 # Minio Config
