@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: "worker-monitor"
-          image: "worker-monitoring-app"
+        image: "worker-monitoring-app"
         imagePullPolicy: Never
         env:
         - name: "DB_URI"
