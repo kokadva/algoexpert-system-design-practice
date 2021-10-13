@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+psycopg2
+sqlalchemy
+pika==1.1.0
+apscheduler
+minio
+jinja2
