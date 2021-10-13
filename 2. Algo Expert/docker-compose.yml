@@ -1,0 +1,22 @@
+version: "3"
+services:
+  postgresql:
+    image: 'postgres:9.6'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_PASSWORD=dev
+      - POSTGRES_USER=dev
+      - POSTGRES_DB=dev
+  object-storage:
+    image: 'minio/minio'
+    command: 'server /data --console-address ":9001"'
+    expose:
+      - 9000
+      - 9001
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      - MINIO_ACCESS_KEY=access_key
+      - MINIO_SECRET_KEY=secret_key
