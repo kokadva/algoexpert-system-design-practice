@@ -1,0 +1,33 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "static-website-app"
+  namespace: "default"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "static-website-app"
+  template:
+    metadata:
+      labels:
+        app: "static-website-app"
+    spec:
+      containers:
+        - name: "static-website-app"
+          image: "static-website-app"
+          imagePullPolicy: Never
+
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "static-website-app-service"
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: "TCP"
+      port: 8000
+      targetPort: 80
+  selector:
+    app: "static-website-app"

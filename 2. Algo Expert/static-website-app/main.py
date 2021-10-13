@@ -29,11 +29,11 @@ templates = Jinja2Templates(directory=STATIC_CONTENT_DIR)
 
 
 # Endpoints
-@app.get("/ping")
+@app.get("/static/ping")
 async def ping():
     return {"message": "static-website-app <3"}
 
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/static/", response_class=HTMLResponse)
 async def home_page(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
