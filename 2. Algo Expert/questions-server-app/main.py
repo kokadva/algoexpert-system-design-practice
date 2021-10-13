@@ -67,7 +67,7 @@ app.add_middleware(
 # Endpoints
 @app.get("/ping")
 async def ping():
-    return {"message": "repo-listener <3"}
+    return {"message": "questions-server-app <3"}
 
 
 @app.get("/questions")
