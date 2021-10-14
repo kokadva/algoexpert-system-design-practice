@@ -1,0 +1,33 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "question-solution-checker-app"
+  namespace: "default"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "question-solution-checker-app"
+  template:
+    metadata:
+      labels:
+        app: "question-solution-checker-app"
+    spec:
+      containers:
+        - name: "question-solution-checker-app"
+          image: "question-solution-checker-app"
+          imagePullPolicy: Never
+
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "question-solution-checker-app-service"
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: "TCP"
+      port: 5001
+      targetPort: 5001
+  selector:
+    app: "question-solution-checker-app"

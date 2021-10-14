@@ -1,0 +1,36 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "questions-server-app"
+  namespace: "default"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "questions-server-app"
+  template:
+    spec:
+      containers:
+        - name: "questions-server-app"
+          image: "questions-server-app"
+          imagePullPolicy: Never
+          env:
+          - name: "DB_URI"
+            valueFrom:
+              configMapKeyRef:
+                key: "POSTGRES_URI"
+                name: "questions-db-configmap"
+
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "questions-server-app-service"
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: "TCP"
+      port: 5002
+      targetPort: 5002
+  selector:
+    app: "questions-server-app"

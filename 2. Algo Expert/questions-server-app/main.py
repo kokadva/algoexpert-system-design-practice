@@ -65,12 +65,12 @@ app.add_middleware(
 
 
 # Endpoints
-@app.get("/ping")
+@app.get("/questions-server-app/ping")
 async def ping():
     return {"message": "questions-server-app <3"}
 
 
-@app.get("/questions")
+@app.get("/questions-server-app/questions")
 async def get_questions():
     session = SessionLocal()
     records = session.query(Questions).all()

@@ -20,7 +20,7 @@ app.add_middleware(
 
 
 # Endpoints
-@app.get("/ping")
+@app.get("/question-solution-checker-app/ping")
 async def ping():
     return {"message": "question-solution-checker-app"}
 
@@ -31,7 +31,7 @@ def test_solution(code):
     return "SUCCESS/FAIL"
 
 
-@app.post("/solutions")
+@app.post("/question-solution-checker-app/solutions")
 async def test_solution(request: Request):
     question_solution_info = await request.json()
     result = test_solution(question_solution_info['code'])

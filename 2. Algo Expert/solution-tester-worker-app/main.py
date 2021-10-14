@@ -30,7 +30,7 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 
 
 # Endpoints
-@app.get("/ping")
+@app.get("/solution-tester-worker-app/ping")
 async def ping():
     return {"message": "solution-tester-worker-app"}
 
@@ -43,7 +43,7 @@ def test_solution(code):
     return str(result)
 
 
-@app.post("/test")
+@app.post("/solution-tester-worker-app/test")
 async def test(request: Request):
     question_solution_info = await request.json()
     result = test_solution(question_solution_info['code'])

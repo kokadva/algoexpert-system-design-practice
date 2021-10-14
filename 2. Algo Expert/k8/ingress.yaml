@@ -15,4 +15,25 @@ spec:
           service:
             name: 'static-website-app-service'
             port:
-              number: 8000
+              number: 80
+      - path: /question-solution-checker-app
+        pathType: Prefix
+        backend:
+          service:
+            name: "question-solution-checker-app-service"
+            port:
+              number: 5001
+      - path: /questions-server-app
+        pathType: Prefix
+        backend:
+          service:
+            name: "questions-server-app-service"
+            port:
+              number: 5002
+      - path: /solution-tester-worker-app
+        pathType: Prefix
+        backend:
+          service:
+            name: "solution-tester-worker-app-service"
+            port:
+              number: 5003
