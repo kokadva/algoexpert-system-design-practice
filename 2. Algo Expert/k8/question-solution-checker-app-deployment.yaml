@@ -17,6 +17,9 @@ spec:
         - name: "question-solution-checker-app"
           image: "question-solution-checker-app"
           imagePullPolicy: Never
+          env:
+            - name: "QUESTION_TESTER_WORKER_BASE_URL"
+              value: "http://solution-tester-worker-app-service:5003"
 
 ---
 apiVersion: "v1"

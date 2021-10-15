@@ -18,6 +18,7 @@ spec:
           image: "solution-tester-worker-app"
           imagePullPolicy: Never
 
+
 ---
 apiVersion: "v1"
 kind: "Service"

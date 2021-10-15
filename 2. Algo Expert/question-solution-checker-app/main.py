@@ -19,7 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-QUESTION_TESTER_WORKER_BASE_URL = os.getenv("QUESTION_TESTER_WORKER_URL",
+QUESTION_TESTER_WORKER_BASE_URL = os.getenv("QUESTION_TESTER_WORKER_BASE_URL",
                                        'http://localhost:5003/solution-tester-worker-app')
 
 
