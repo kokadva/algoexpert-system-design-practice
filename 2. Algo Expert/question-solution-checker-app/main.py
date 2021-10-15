@@ -1,6 +1,7 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Request
-
+import requests
+import os
 
 # FastAPI Init
 app = FastAPI()
@@ -18,6 +19,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+QUESTION_TESTER_WORKER_BASE_URL = os.getenv("QUESTION_TESTER_WORKER_URL",
+                                       'http://localhost:5003/solution-tester-worker-app')
+
 
 # Endpoints
 @app.get("/question-solution-checker-app/ping")
@@ -26,9 +30,10 @@ async def ping():
 
 
 def test_solution(code):
-    print("Testing solution:", code)
-    # TODO implement
-    return "SUCCESS/FAIL"
+    url = QUESTION_TESTER_WORKER_BASE_URL + '/test'
+    data = {'code': code}
+    response = requests.post(url, data=data)
+    return response.json()['result']
 
 
 @app.post("/question-solution-checker-app/solutions")
