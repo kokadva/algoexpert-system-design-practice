@@ -3,17 +3,18 @@ kind: "Deployment"
 metadata:
   name: "questions-db"
   namespace: "default"
-  labels:
-    app: "questions-db"
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: "questions-db"
   template:
+    metadata:
+      labels:
+        app: "questions-db"
     spec:
       containers:
-      - name: "postgres"
+      - name: "questions-db"
         image: 'postgres:9.6'
         env:
         - name: "POSTGRES_DB"
@@ -39,10 +40,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: questions-db-service
+  name: postgres
 spec:
   ports:
     - port: 5432
   selector:
-    app: questions-db
+    app: "questions-db"
 

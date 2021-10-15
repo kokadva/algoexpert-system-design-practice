@@ -9,6 +9,9 @@ spec:
     matchLabels:
       app: "solution-tester-worker-app"
   template:
+    metadata:
+      labels:
+        app: "solution-tester-worker-app"
     spec:
       containers:
         - name: "solution-tester-worker-app"

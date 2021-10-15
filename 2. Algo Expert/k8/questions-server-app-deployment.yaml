@@ -9,6 +9,9 @@ spec:
     matchLabels:
       app: "questions-server-app"
   template:
+    metadata:
+      labels:
+        app: "questions-server-app"
     spec:
       containers:
         - name: "questions-server-app"
