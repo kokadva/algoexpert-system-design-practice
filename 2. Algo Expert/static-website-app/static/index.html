@@ -1,10 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Yeap</title>
+    <title>Yeap</title>
 </head>
 <body>
-	<h1>No way</h1>
+<h1>Fun app</h1>
+<label for="questions">Questions:</label><textarea id="questions"></textarea>
+<label for="solution">Solution:</label><textarea id="solution">print('yes')</textarea>
+<button onclick="testSolution()">Test Solution</button>
+<label for="result">Result:</label><textarea id="result"></textarea>
+<script>
+    function getQuestions() {
+        const Http = new XMLHttpRequest();
+        const url = '/questions-server-app/questions';
+        Http.open("GET", url);
+        Http.send();
+		Http.onreadystatechange = (e) => {
+            console.log(Http.responseText);
+            document.getElementById("questions").innerHTML = Http.responseText;
+        }
+
+    }
+    function testSolution(){
+		const Http = new XMLHttpRequest();
+        const url = '/question-solution-checker-app/solutions';
+        Http.open("POST", url);
+        Http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        Http.send(JSON.stringify({"code": document.getElementById("solution").value}));
+		Http.onreadystatechange = (e) => {
+            console.log(Http.responseText);
+            document.getElementById("result").value = Http.responseText;
+        }
+	}
+
+
+    getQuestions()
+
+</script>
+
 </body>
 </html>
 

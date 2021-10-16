@@ -19,7 +19,7 @@ spec:
           imagePullPolicy: Never
           env:
             - name: "QUESTION_TESTER_WORKER_BASE_URL"
-              value: "http://solution-tester-worker-app-service:5003"
+              value: "http://solution-tester-worker-app-service:5003/solution-tester-worker-app"
 
 ---
 apiVersion: "v1"
