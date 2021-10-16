@@ -32,13 +32,14 @@ async def ping():
 def test_solution(code):
     url = QUESTION_TESTER_WORKER_BASE_URL + '/test'
     data = {'code': code}
-    response = requests.post(url, data=data)
+    response = requests.post(url, json=data)
     return response.json()['result']
 
 
 @app.post("/question-solution-checker-app/solutions")
-async def test_solution(request: Request):
+async def test(request: Request):
     question_solution_info = await request.json()
+    print()
     result = test_solution(question_solution_info['code'])
     return {
         "result": result

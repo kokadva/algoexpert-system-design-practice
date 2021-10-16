@@ -22,7 +22,10 @@ app.add_middleware(
 )
 
 TMP_DIR = os.getenv('TMP_DIR', 'tmp/')
-os.mkdir(TMP_DIR)
+try:
+    os.mkdir(TMP_DIR)
+except:
+    pass
 
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
@@ -46,7 +49,11 @@ def test_solution(code):
 @app.post("/solution-tester-worker-app/test")
 async def test(request: Request):
     question_solution_info = await request.json()
-    result = test_solution(question_solution_info['code'])
+    print(question_solution_info)
+    try:
+        result = test_solution(question_solution_info['code'])
+    except:
+        result = 'Failed'
     return {
         "result": result
     }
